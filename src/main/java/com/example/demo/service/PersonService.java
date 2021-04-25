@@ -14,4 +14,12 @@ public class PersonService {
   public Iterable<Person> findAll() {
     return personRepository.findAll();
   }
+
+  public Person findById(Long id) {
+    return personRepository.findById(id).get();
+  }
+
+  public Person save(Person person) {
+    return personRepository.save(person);
+  }
 }
