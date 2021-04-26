@@ -6,6 +6,8 @@ import com.example.demo.service.PersonService;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -43,5 +45,10 @@ public class CommonController {
     User u = userService.save(user);
     Person p = personService.findById(u.getPersonId());
     return String.format("New User [id=%d] %s %s is inserted correctly!", p.getId(), p.getFirstName(), p.getLastName());
+  }
+
+  @GetMapping("/info")
+  public Authentication getUserInfo() {
+    return SecurityContextHolder.getContext().getAuthentication();
   }
 }
