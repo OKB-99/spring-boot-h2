@@ -4,14 +4,13 @@ import com.example.demo.model.Person;
 import com.example.demo.model.User;
 import com.example.demo.service.PersonService;
 import com.example.demo.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class CommonController {
+public class MyRestController {
 
   @Autowired
   private PersonService personService;
@@ -19,7 +18,7 @@ public class CommonController {
   @Autowired
   private UserService userService;
 
-  @RequestMapping(path = "/")
+  @RequestMapping(path = "/hello")
   public String hello() {
     return "Now DemoApplication is working!";
   }
