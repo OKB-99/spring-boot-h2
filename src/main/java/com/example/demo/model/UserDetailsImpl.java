@@ -10,17 +10,6 @@ import java.util.Collection;
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-  @AllArgsConstructor
-  public class GrantedAuthorityImpl implements GrantedAuthority {
-
-    private String authority;
-
-    @Override
-    public String getAuthority() {
-      return authority;
-    }
-  }
-
   private User user;
 
   @Override
