@@ -94,8 +94,9 @@
 <body>
 <div class="container">
   <div class="topnav">
-    <a class="active" href="#">Home</a>
-    <a href="/demo/home">User Home</a>
+    <p>Hello <c:out value="${userRole}"/></p>
+    <a href="/demo/">Home</a>
+    <a class="active" href="/demo/home">User Home</a>
     <c:choose>
       <c:when test="${userRole=='ROLE_ANONYMOUS'}">
         <a href="/login">Login</a>
@@ -104,8 +105,54 @@
         <a href="/logout">Logout</a>
       </c:otherwise>
     </c:choose>
-
   </div>
+
+  <h2>Person List</h2>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Email</th>
+    </tr>
+    </thead>
+    <tbody>
+      <c:forEach var="person" items="${persons}">
+        <tr>
+          <td><c:out value="${person.id}" /></td>
+          <td><c:out value="${person.firstName}" /></td>
+          <td><c:out value="${person.lastName}" /></td>
+          <td><c:out value="${person.email}" /></td>
+        </tr>
+      </c:forEach>
+    </tbody>
+  </table>
+
+  <c:if test="${userRole=='ROLE_ADMIN'}">
+    <h2>User List</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Username</th>
+        <th scope="col">Role</th>
+        <th scope="col">Person ID</th>
+      </tr>
+      </thead>
+      <tbody>
+      <c:forEach var="user" items="${users}">
+        <tr>
+          <td><c:out value="${user.id}" /></td>
+          <td><c:out value="${user.username}" /></td>
+          <td><c:out value="${user.userRole}" /></td>
+          <td><c:out value="${user.personId}" /></td>
+        </tr>
+      </c:forEach>
+      </tbody>
+    </table>
+  </c:if>
+
 </div>
 </body>
 </html>
