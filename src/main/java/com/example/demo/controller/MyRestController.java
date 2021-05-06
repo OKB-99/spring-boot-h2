@@ -5,8 +5,10 @@ import com.example.demo.model.User;
 import com.example.demo.service.PersonService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,6 +32,7 @@ public class MyRestController {
   }
 
   @GetMapping(path = "/users")
+  @Secured("ROLE_ADMIN")
   public Iterable<User> findAllUsers() {
     return userService.findAll();
   }
@@ -42,12 +45,13 @@ public class MyRestController {
 
   @PostMapping(path = "/users/insert")
   public String saveUser(@RequestBody User user) {
+    user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword())); //TODO use deserializer
     User u = userService.save(user);
     Person p = personService.findById(u.getPersonId());
     return String.format("New User [id=%d] %s %s is inserted correctly!", p.getId(), p.getFirstName(), p.getLastName());
   }
 
-  @GetMapping("/info")
+  @GetMapping(path = {"/info", "/index"})
   public Authentication getUserInfo() {
     return SecurityContextHolder.getContext().getAuthentication();
   }
