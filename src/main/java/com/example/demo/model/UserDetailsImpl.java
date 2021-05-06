@@ -3,6 +3,7 @@ package com.example.demo.model;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,7 +15,7 @@ public class UserDetailsImpl implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    String role =  user.getUserRole().equals("ADMIN") ? "ROLE_ADMIN" : "ROLE_USER";
+    String role = (user.getUserRole() != null && user.getUserRole().equals("ADMIN")) ? "ROLE_ADMIN" : "ROLE_USER";
     return Arrays.asList(new GrantedAuthorityImpl(role));
   }
 
