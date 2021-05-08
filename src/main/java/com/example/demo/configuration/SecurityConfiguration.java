@@ -18,7 +18,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity security) throws Exception {
-    security.authorizeRequests()
+    security.csrf().disable().authorizeRequests()
         .mvcMatchers("/demo/**", "/rest/**").permitAll()
         .and().formLogin().defaultSuccessUrl("/demo/index").permitAll()
         .and().httpBasic()
