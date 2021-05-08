@@ -4,6 +4,8 @@ import com.example.demo.model.Person;
 import com.example.demo.model.User;
 import com.example.demo.service.PersonService;
 import com.example.demo.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/rest")
 public class MyRestController {
+
+  Logger logger = LoggerFactory.getLogger(MainController.class);
 
   @Autowired
   private PersonService personService;
@@ -38,17 +42,19 @@ public class MyRestController {
   }
 
   @PostMapping(path = "/persons/insert")
-  public String savePerson(@RequestBody Person person) {
+  public Person savePerson(@RequestBody Person person) {
     Person p = personService.save(person);
-    return String.format("New Person [id=%d] %s %s is inserted correctly!", p.getId(), p.getFirstName(), p.getLastName());
+    logger.info(String.format("New Person [id=%d] %s %s is inserted correctly!", p.getId(), p.getFirstName(), p.getLastName()));
+    return p;
   }
 
   @PostMapping(path = "/users/insert")
-  public String saveUser(@RequestBody User user) {
+  public User saveUser(@RequestBody User user) {
     user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword())); //TODO use deserializer
     User u = userService.save(user);
     Person p = personService.findById(u.getPersonId());
-    return String.format("New User [id=%d] %s %s is inserted correctly!", p.getId(), p.getFirstName(), p.getLastName());
+    logger.info(String.format("New User [id=%d] %s %s is inserted correctly!", p.getId(), p.getFirstName(), p.getLastName()));
+    return u;
   }
 
   @GetMapping(path = {"/info", "/index"})
